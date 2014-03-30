@@ -105,10 +105,6 @@
                 </cfif>
                 <cfset responseIndex = callIndex + 1 />
                 Row:<cfdump var="#row#">, Count:<cfdump var="#count#, ">
-    <!--- <cfdump var="#importData#"> --->
-    <!--- <cfdump var="#request.messageLogArray#">
-    <cfdump var="#request.messageLogged#">
-    <cfdump var="#request.responseLogged#"> --->
 
                 <cfset request.ecometryAPICall = Replace(request.messageLogArray[callIndex],'""','"','all') />
 
@@ -117,14 +113,9 @@
                 <cfif NOT isXML(request.ecometryResponse)>
                     <cfset request.ecometryResponse = Replace(Replace(Replace(Replace(Replace(request.ecometryResponse,'["<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n','','all'),']"',''),'\r\n\t','','all'),'\t','','all'),'\','','all') />
                 </cfif>
-    <!--- <cfdump var="#request.ecometryResponse#"> --->
 
                 <cfset request.cleanAPICall =  xmlParse(request.ecometryAPICall)/>
                 <cfset request.cleanResponse =  xmlParse(request.ecometryResponse)/>
-
-                <!--- <cfset transData = XmlSearch(request.ecometryAPICall, "/#request.messageLogged#/sg_data_to_macs")>
-
-                <cfset tmp =  StructDelete(request.cleanResponse['#request.responseLogged#'], "user_data_returned_with_response")/> --->
 
                 <cfset request.dataBeingSent =  xmlParse(request.ecometryResponse)/>
 
@@ -133,14 +124,9 @@
                 <cfset request.logEntryDateTime = Replace(importData.date & ' ' & importData.time, """", "", "ALL") />
 
                 Date:<cfdump var="#request.logEntryDateTime#"><br>
-                <!--- <cfdump var="#isDate(request.logEntryDateTime)#"> --->
-
-                <!--- <cfdump var="#request.messageLogArray#"> --->
+                <!--- Links to the request/response XML dumps --->
                 <cfdump var="#request.messageLogged#:">
-                <!--- <cfdump var="#transData#"> --->
-
                 <cfdump var="#request.cleanAPICall#" expand="false">
-                <!--- <cfdump var="#request.cleanAPICall[request.messageLogged].sg_data_to_macs#"> --->
                 <cfdump var="#request.responseLogged#:">
                 <cfdump var="#request.cleanResponse#" expand="false">
 
@@ -151,15 +137,7 @@
         <cfset row = row + 1 />
         <cfflush/>
 
-        <!--- <cfif row EQ 200>
-            <cfabort>
-        </cfif> --->
-
     </cfloop>
-    <!--- Archive File??? --->
-    <!--- <cfif fileExists("#filepath#\#fullFileName#")>
-         <cffile action="rename" source="#filepath#\#fullFileName#" destination="#archivepath#\#filename#_#DateFormat(Now(), "ddmmyy")#.txt" />
-     </cfif> --->
 
     <cfoutput>
         Successfully Parsed #row# Error Log Lines.
