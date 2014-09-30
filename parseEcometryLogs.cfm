@@ -2,7 +2,7 @@
 
 <cfset request.startTime = getTickCount() />
 
-<cfsilent>
+<!--- <cfsilent>
     <cfset request.isBot = 0 />
     <cfapplication
         name="myScripts_parseLogError"
@@ -11,7 +11,7 @@
         applicationtimeout="#CreateTimeSpan(1,0,0,0)#"
         clientmanagement="no"
     />
-</cfsilent>
+</cfsilent> --->
 
 <html>
 
