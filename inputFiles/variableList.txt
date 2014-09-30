@@ -1,0 +1,13 @@
+productFeedAdditionalAttributes
+productID UNIQUEIDENTIFIER,
+siteIDBitMask INT,
+feature1 VARCHAR(500),
+feature2 VARCHAR(500),
+feature3 VARCHAR(500),
+feature4 VARCHAR(500),
+feature5 VARCHAR(500),
+ingredients1 VARCHAR(255),
+ingredients2 VARCHAR(255),
+ingredients3 VARCHAR(255),
+indications VARCHAR(255),
+itemForm VARCHAR(255)
