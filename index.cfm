@@ -1,3 +1,10 @@
+<cfparam name="form.dbMigrate" default="" />
+<cfparam name="form.siteName" default="" />
+<cfparam name="form.migrationName" default="" />
+
+<cfset projectList = "bhldn,eataly,terrain,uniquephoto,mightyleaf,misook,morganlewis,drsinatra" />
+<cfset count = 0 />
+
 <html>
 
 <head>
@@ -9,8 +16,17 @@
     <title>MERKS DEV TOOLS</title>
 </head>
 
-
-<cfset projectList = "bhldn,eataly,terrain,uniquephoto,mightyleaf,misook,morganlewis,drsinatra" />
+<cfif listFindNoCase(projectList,form.siteName) AND form.dbMigrate EQ 'create' AND len(trim(form.migrationName))>
+    <cfset requestURL = "http://local.#form.siteName#.weblinc.com/?dbMigrate=create&migrationName=" & form.migrationName />
+    <cfhttp url="#requestURL#" method="get" result="response" ></cfhttp>
+    <cfif response.responseheader.status_code EQ 200 >
+        <h2>You have created a migration for <cfoutput>#form.siteName#</cfoutput>.</h2>
+        <cfoutput>Success message: #response.fileContent#</cfoutput>
+    <cfelse>
+        <h2>Something went wrong while creating a migration for <cfoutput>#form.siteName#</cfoutput>.</h2>
+        <cfoutput>Error message: #response.errorDetail#</cfoutput>
+    </cfif>
+</cfif>
 
 <body>
 
@@ -29,13 +45,16 @@
                     </cfif>
                     <li><button onclick="window.open('http://local.#thisSite#.weblinc.com/?resetApplication=1')">Reset Application</button></li>
                     <li><button onclick="window.open('http://local.#thisSite#.weblinc.com/?resetAssetPackages=1')">Reset Asset Packages</button></li>
-            <form id="" name="createNewMigration" action="http://local.#thisSite#.weblinc.com/?dbMigrate=create" method="post">
-                    <!---li>
-                        <button type="submit" >Create Migration</button>
-                        <input type="text" name="migrationName" />
-                    </li--->
+                    <li>
+                        <form id="createNewMigration_#count#" name="createNewMigration_#count#" action="" method="post" >
+                            <input type="hidden" name="siteName" value="#thisSite#" />
+                            <input type="hidden" name="dbMigrate" value="create" />
+                            <input type="text" name="migrationName" value="" required="required" />
+                            <input class="button" type="submit" name="createMigration" value="Create Migration" />
+                        </form>
+                    </li>
                 </ul>
-            </form>
+                <cfset count++ />
         </cfloop>
     </cfoutput>
 
