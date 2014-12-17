@@ -46,7 +46,7 @@ declare -a arr=("GetDetail" "GetMultiple" "Insert" "Update" "Delete")
 for i in "${arr[@]}"
 do
     echo "" >> $filename
-    sproc=${lines[0]}${arr[@]}
+    sproc=${lines[0]}${i}
     sproc=${sproc//[[:space:]]/}
     echo "CREATE PROCEDURE [dbo].["${sproc//[[:space:]]/}"]" >> $filename
     echo "AS" >> $filename

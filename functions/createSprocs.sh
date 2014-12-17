@@ -1,7 +1,7 @@
 function createSprocs {
 
     #GetMultiple Sproc
-    filename='outputFiles/'${lines[0]}'GetMultiple.sql'
+    filename='outputFiles/dbo.'${lines[0]}'GetMultiple.sql'
     filename=${filename//[[:space:]]/}
     echo "Creating... "$filename
 
@@ -23,9 +23,9 @@ function createSprocs {
         first=$1
         second=$2
         if [ $i -eq $lastLine ]; then
-            echo "    "$first"," >> $filename
-        else
             echo "    "$first >> $filename
+        else
+            echo "    "$first"," >> $filename
         fi
     done
 
@@ -35,7 +35,7 @@ function createSprocs {
     echo "GO" >> $filename
 
     #GetDetail Sproc
-    filename='outputFiles/'${lines[0]}'GetDetail.sql'
+    filename='outputFiles/dbo.'${lines[0]}'GetDetail.sql'
     filename=${filename//[[:space:]]/}
     echo "Creating... "$filename
 
@@ -74,7 +74,7 @@ function createSprocs {
 
 
     #Insert Sproc
-    filename='outputFiles/'${lines[0]}'Insert.sql'
+    filename='outputFiles/dbo.'${lines[0]}'Insert.sql'
     filename=${filename//[[:space:]]/}
     echo "Creating... "$filename
 
@@ -126,7 +126,7 @@ function createSprocs {
 
 
     #Update Sproc
-    filename='outputFiles/'${lines[0]}'Update.sql'
+    filename='outputFiles/dbo.'${lines[0]}'Update.sql'
     filename=${filename//[[:space:]]/}
     echo "Creating... "$filename
 
