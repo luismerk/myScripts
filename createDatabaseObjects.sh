@@ -71,7 +71,7 @@ echo "GO" >> $filename
 for i in "${arr[@]}"
 do
     echo "" >> $filename
-    sproc=${lines[0]}${arr[@]}
+    sproc=${lines[0]}${i}
     sproc=${sproc//[[:space:]]/}
     echo "IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].["${sproc//[[:space:]]/}"]') AND type in (N'P', N'PC'))" >> $filename
     echo "DROP PROCEDURE [dbo].["${sproc//[[:space:]]/}"]" >> $filename

@@ -95,7 +95,7 @@ function createSprocs {
     done
     echo ")" >> $filename
     echo "AS" >> $filename
-    echo "INSERT INTO "${lines[0]} >> $filename
+    echo "INSERT INTO [dbo].["${lines[0]}"]" >> $filename
     echo "(" >> $filename
     for (( i = 1 ; i < numberOfLines; i++ ))
     do
@@ -147,7 +147,7 @@ function createSprocs {
     done
     echo ")" >> $filename
     echo "AS" >> $filename
-    echo "UPDATE "${lines[0]} >> $filename
+    echo "UPDATE [dbo].["${lines[0]}"]" >> $filename
     echo "SET" >> $filename
     for (( i = 1 ; i < numberOfLines; i++ ))
     do
