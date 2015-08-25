@@ -2,11 +2,11 @@
 <cfparam name="form.siteName" default="" />
 <cfparam name="form.migrationName" default="" />
 
-<cfset projectList = "bhldn,terrain,uniquephoto,mightyleaf,misook,morganlewis" />
+<cfset projectList = "terrain,uniquephoto,sstack" />
 <cfset count = 0 />
 
-<cfset PAGE_TITLE = "MERKS DEV TOOLS" />
-<cfset PAGE_HEADER = "Merk's Helpful Stuff" />
+<cfset PAGE_TITLE = "COLDFUSION DEV TOOLS" />
+<cfset PAGE_HEADER = "Coldfusion Sites - Helpful Stuff" />
 
 <html>
 
@@ -49,10 +49,11 @@
                 <li><button onclick="window.open('http://local.#thisSite#.weblinc.com/?resetApplication=1')">Reset Application</button></li>
                 <li><button onclick="window.open('http://local.#thisSite#.weblinc.com/?resetAssetPackages=1')">Reset Asset Packages</button></li>
                 <li>
+                    <br/><br/>
                     <form id="createNewMigration_#count#" name="createNewMigration_#count#" action="" method="post" >
                         <input type="hidden" name="siteName" value="#thisSite#" />
                         <input type="hidden" name="dbMigrate" value="create" />
-                        <input type="text" name="migrationName" value="" required="required" />
+                        Enter Migration Name: <input type="text" name="migrationName" value="" required="required" />
                         <input class="button" type="submit" name="createMigration" value="Create Migration" />
                     </form>
                 </li>
