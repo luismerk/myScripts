@@ -31,6 +31,19 @@
     </cfif>
 </cfif>
 
+<cfif listFindNoCase(projectList,form.siteName) AND form.reparse EQ true AND len(trim(form.fuseactionToParse))>
+    <cfset requestURL = "http://local.#form.siteName#.weblinc.com/?fusebox.password=d33r1kt&fusebox.load=true&fusebox.parse=true&fusebox.execute=false&fuseaction=" & form.fuseactionToParse />
+    <cfhttp url="#requestURL#" method="get" result="response" ></cfhttp>
+
+    <cfif response.responseheader.status_code EQ 200 >
+        <h2>You have successfully reparsed the '<cfoutput>#form.fuseactionToParse#</cfoutput>' fuseaction for <cfoutput>#form.siteName#</cfoutput>.</h2>
+        <cfoutput>Success message: #response.statusCode#</cfoutput>
+    <cfelse>
+        <h2>Something went wrong while reparsing the '<cfoutput>#form.fuseactionToParse#</cfoutput>' fuseaction for <cfoutput>#form.siteName#</cfoutput>.</h2>
+        <cfoutput>Error message: #response.errorDetail#</cfoutput>
+    </cfif>
+</cfif>
+
 <body>
 
     <h1><cfoutput>#PAGE_HEADER#</cfoutput></h1>
@@ -55,6 +68,14 @@
                         <input type="hidden" name="dbMigrate" value="create" />
                         Enter Migration Name: <input type="text" name="migrationName" value="" required="required" />
                         <input class="button" type="submit" name="createMigration" value="Create Migration" />
+                    </form>
+                </li>
+                <li>
+                    <form id="reparseFuseaction_#count#" name="reparseFuseaction_#count#" action="" method="post" >
+                        <input type="hidden" name="siteName" value="#thisSite#" />
+                        <input type="hidden" name="reparse" value="true" />
+                        Enter circuit.fuseaction: <input type="text" name="fuseactionToParse" value="" required="required" />
+                        <input class="button" type="submit" name="reparseFuseaction" value="Reparse Fuseaction" />
                     </form>
                 </li>
                 <li><button onclick="window.open('http://dev.#thisSite#.weblinc.com/')">DEV site</button></li>
