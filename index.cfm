@@ -1,4 +1,5 @@
 <cfparam name="form.dbMigrate" default="" />
+<cfparam name="form.reparse" default="" />
 <cfparam name="form.siteName" default="" />
 <cfparam name="form.migrationName" default="" />
 
