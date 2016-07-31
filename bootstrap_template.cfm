@@ -8,7 +8,7 @@
 <cfset count = 0 />
 
 <cfset PAGE_TITLE = "COLDFUSION DEV TOOLS" />
-<cfset PAGE_HEADER = "Coldfusion Sites - Helpful Stuff" />
+<cfset PAGE_HEADER = "Coldfusion Dashboard" />
 <cfset RESOURCES_DIR = "resources/less/dist/" />
 
 <html lang="en">
@@ -34,42 +34,60 @@
     <body>
         <div class="container">
 
-            <h1><cfoutput>#PAGE_HEADER#</cfoutput></h1>
+            <div class="row">
+                <h1>
+                <div class="col-xs-7">
+                    <cfoutput>#PAGE_HEADER#</cfoutput>
+                </div>
+                <div class="col-xs-1">
+                    <a type="button" class="btn btn-default" href="/">Reset</a>
+                </div>
+                </h1>
+            </div>
 
             <!--- PROCESS FORM SUBMISSION --->
             <cfif listFindNoCase(projectList,form.siteName) AND form.dbMigrate EQ 'create' AND len(trim(form.migrationName))>
                 <cfset requestURL = "http://local.#form.siteName#.weblinc.com/?dbMigrate=create&migrationName=" & form.migrationName />
                 <cfhttp url="#requestURL#" method="get" result="response" ></cfhttp>
-                <cfif response.responseheader.status_code EQ 200 >
-                    <div class="alert alert-success" role="alert">
+
+                <cfsavecontent variable="request.msg">
+                    <cfif response.responseheader.status_code EQ 200 >
                         <h4>You have created a migration for <cfoutput>#form.siteName#</cfoutput>.</h4>
                         <cfoutput>Success message: #trim(response.fileContent)#_up.sql<br/><a href="file:///#Replace(trim(response.fileContent),'creating ','')#_up.sql">Go there</a></cfoutput>
-                    </div>
-                <cfelse>
-                    <div class="alert alert-danger" role="alert">
+                        <cfset request.msgType = 'success' />
+                    <cfelse>
                         <h4>Something went wrong while creating a migration for <cfoutput>#form.siteName#</cfoutput>.</h4>
                         <cfoutput>Error message: #response.statusCode#</cfoutput>
-                    </div>
-                </cfif>
+                        <cfset request.msgType = 'danger' />
+                    </cfif>
+                </cfsavecontent>
             </cfif>
 
             <cfif listFindNoCase(projectList,form.siteName) AND form.reparse EQ true AND len(trim(form.fuseactionToParse))>
                 <cfset requestURL = "http://local.#form.siteName#.weblinc.com/?fusebox.password=d33r1kt&fusebox.load=true&fusebox.parse=true&fusebox.execute=false&fuseaction=" & form.fuseactionToParse />
                 <cfhttp url="#requestURL#" method="get" result="response" ></cfhttp>
 
-                <cfif response.responseheader.status_code EQ 200 >
-                    <div class="alert alert-success" role="alert">
+                <cfsavecontent variable="request.msg">
+                    <cfif response.responseheader.status_code EQ 200 >
                         <h4>You have successfully reparsed the '<cfoutput>#form.fuseactionToParse#</cfoutput>' fuseaction for <cfoutput>#form.siteName#</cfoutput>.</h4>
                         <cfoutput>Success message: #response.statusCode#</cfoutput>
-                    </div>
-                <cfelse>
-                    <div class="alert alert-danger" role="alert">
+                        <cfset request.msgType = 'success' />
+                    <cfelse>
                         <h4>Something went wrong while reparsing the '<cfoutput>#form.fuseactionToParse#</cfoutput>' fuseaction for <cfoutput>#form.siteName#</cfoutput>.</h4>
                         <cfoutput>Error message: #response.statusCode#</cfoutput>
-                    </div>
-                </cfif>
+                        <cfset request.msgType = 'danger' />
+                    </cfif>
+                </cfsavecontent>
             </cfif>
             <!--- //PROCESS FORM SUBMISSION --->
+
+            <cfif structKeyExists(request, "msg") AND len(trim(request.msg))>
+                <cfoutput>
+                    <div class="alert alert-#request.msgType#" role="alert">
+                        #request.msg#
+                    </div>
+                </cfoutput>
+            </cfif>
 
             <h2>Current Projects</h2>
             <cfoutput>
@@ -100,10 +118,10 @@
                             <form id="createNewMigration_#count#" name="createNewMigration_#count#" action="" method="post" >
                                 <input type="hidden" name="siteName" value="#thisSite#" />
                                 <input type="hidden" name="dbMigrate" value="create" />
-                                <!--- Enter Migration Name: <input type="text" name="migrationName" value="" required="required" /> --->
+
                                 <div class="col-lg-5">
                                 <div class="input-group">
-                                  <input type="text" class="form-control" name="migrationName" value="" required="required" placeholder="Enter Migration Name">
+                                  <input type="text" class="form-control" name="migrationName" value="<cfif structKeyExists(form,'migrationName') AND len(trim(form.migrationName))>#form.migrationName#</cfif>" required="required" placeholder="Enter Migration Name">
                                   <span class="input-group-btn">
                                     <input class="btn btn-default" type="submit" name="createMigration"     value="Create Migration" />
                                   </span>
@@ -116,10 +134,10 @@
                             <form id="reparseFuseaction_#count#" name="reparseFuseaction_#count#" action="" method="post" >
                                 <input type="hidden" name="siteName" value="#thisSite#" />
                                 <input type="hidden" name="reparse" value="true" />
-                                <!--- Enter circuit.fuseaction: <input type="text" name="fuseactionToParse" value="" required="required" /> --->
+
                                 <div class="col-lg-5">
                                 <div class="input-group">
-                                  <input type="text" class="form-control" name="fuseactionToParse" placeholder="Enter circuit.fuseaction">
+                                  <input type="text" class="form-control" name="fuseactionToParse" value="<cfif structKeyExists(form,'fuseactionToParse') AND len(trim(form.fuseactionToParse))>#form.fuseactionToParse#</cfif>" placeholder="Enter circuit.fuseaction">
                                   <span class="input-group-btn">
                                     <input class="button btn btn-default" type="submit" name="reparseFuseaction" value="Reparse Fuseaction" />
                                   </span>
