@@ -1,7 +1,7 @@
 function createSprocs {
 
     #GetMultiple Sproc
-    filename='outputFiles/dbo.'${lines[0]}'GetMultiple.sql'
+    filename='outputFiles/dbo.'${lines[0]}'GetMultiple.StoredProcedure.sql'
     filename=${filename//[[:space:]]/}
     echo "Creating... "$filename
 
@@ -35,7 +35,7 @@ function createSprocs {
     echo "GO" >> $filename
 
     #GetDetail Sproc
-    filename='outputFiles/dbo.'${lines[0]}'GetDetail.sql'
+    filename='outputFiles/dbo.'${lines[0]}'GetDetail.StoredProcedure.sql'
     filename=${filename//[[:space:]]/}
     echo "Creating... "$filename
 
@@ -74,7 +74,7 @@ function createSprocs {
 
 
     #Insert Sproc
-    filename='outputFiles/dbo.'${lines[0]}'Insert.sql'
+    filename='outputFiles/dbo.'${lines[0]}'Insert.StoredProcedure.sql'
     filename=${filename//[[:space:]]/}
     echo "Creating... "$filename
 
@@ -126,7 +126,7 @@ function createSprocs {
 
 
     #Update Sproc
-    filename='outputFiles/dbo.'${lines[0]}'Update.sql'
+    filename='outputFiles/dbo.'${lines[0]}'Update.StoredProcedure.sql'
     filename=${filename//[[:space:]]/}
     echo "Creating... "$filename
 
@@ -160,6 +160,32 @@ function createSprocs {
             echo "    "$first" = @"$first"," >> $filename
         fi
     done
+    echo "" >> $filename
+    echo "GO" >> $filename
+
+    #Delete Sproc
+    filename='outputFiles/dbo.'${lines[0]}'Delete.StoredProcedure.sql'
+    filename=${filename//[[:space:]]/}
+    echo "Creating... "$filename
+
+    echo "SET ANSI_NULLS ON" > $filename
+    echo "GO" >> $filename
+    echo "SET QUOTED_IDENTIFIER ON" >> $filename
+    echo "GO" >> $filename
+    sproc=${lines[0]}'Delete'
+    sproc=${sproc//[[:space:]]/}
+    echo "ALTER PROCEDURE [dbo].["${sproc//[[:space:]]/}"] (" >> $filename
+    for (( i = 1 ; i < 2; i++ ))
+    do
+        echo "    @"${lines[$i]//,/} >> $filename
+    done
+    echo ")" >> $filename
+    echo "AS" >> $filename
+    echo "DELETE FROM [dbo].["${lines[0]}"]" >> $filename
+    echo "WHERE" >> $filename
+    set -- ${lines[1]}
+    first=$1
+    echo "    "$first" = @"$first >> $filename
     echo "" >> $filename
     echo "GO" >> $filename
 

@@ -25,9 +25,9 @@ for (( i = 1 ; i < numberOfLines;  i++ ))
 do
 	#echo "    "${lines[$i]} >> $filename
     if [ $i -eq $lastLine ]; then
-        echo "    @"${lines[$i]}"," >> $filename
+        echo "    "${lines[$i]}"," >> $filename
     else
-        echo "    @"${lines[$i]} >> $filename
+        echo "    "${lines[$i]} >> $filename
     fi
 done
 echo "CONSTRAINT [PK_"${lines[0]}"] PRIMARY KEY CLUSTERED" >> $filename

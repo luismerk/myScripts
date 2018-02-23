@@ -1,13 +1,9 @@
-productFeedAdditionalAttributes
-productID UNIQUEIDENTIFIER,
-siteIDBitMask INT,
-feature1 VARCHAR(500),
-feature2 VARCHAR(500),
-feature3 VARCHAR(500),
-feature4 VARCHAR(500),
-feature5 VARCHAR(500),
-ingredients1 VARCHAR(255),
-ingredients2 VARCHAR(255),
-ingredients3 VARCHAR(255),
-indications VARCHAR(255),
-itemForm VARCHAR(255)
+contentSectionUtilityNav
+contentSectionID UNIQUEIDENTIFIER,
+aliasName VARCHAR(255),
+customURL VARCHAR(1000),
+displayOrder INT,
+creationDateTime DATETIME,
+creationAdministratorID UNIQUEIDENTIFIER,
+lastModificationDateTime DATETIME,
+lastModificationAdministratorID UNIQUEIDENTIFIER
