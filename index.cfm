@@ -4,7 +4,7 @@
 <cfparam name="form.siteName" default="" />
 <cfparam name="form.migrationName" default="" />
 
-<cfset projectList = "bhldn,terrain,uniquephoto,thesak,mavi,sstack" />
+<cfset projectList = "bhldn,terrain,uniquephoto,thesak,mavi,sstack,strand,twist" />
 <cfset hasStagingList = "bhldn,terrain,uniquephoto,mavi" />
 <cfset count = 0 />
 
